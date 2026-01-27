@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>午餐夾飽未？</title>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+      --bg-orange: #ffe0b2; 
+      --bg-white: #ffffff;
+      --m-body: #ffc1cc;
+      --m-accent: #f48fb1; 
+      --glass-frame: #b2ebf2; 
+      --claw-metal: #90a4ae;
+      --button-bg: #fff59d;
+      --button-text: #ff5252;
+      --text-color: #5d4037;
+      /* 球的底座顏色 */
+      --ball-1: #ffc1cc; --ball-2: #b2ebf2; --ball-3: #d1c4e9;
+      --ball-4: #c8e6c9; --ball-5: #fff9c4; --ball-6: #ffe0b2;
+  }
+
+  body {
+    font-family: 'Gaegu', 'Microsoft JhengHei', sans-serif;
+    background-image: linear-gradient(45deg, var(--bg-orange) 25%, transparent 25%, transparent 75%, var(--bg-orange) 75%, var(--bg-orange)),
+                      linear-gradient(45deg, var(--bg-orange) 25%, var(--bg-white) 25%, var(--bg-white) 75%, var(--bg-orange) 75%, var(--bg-orange));
+    background-size: 100px 100px; background-position: 0 0, 50px 50px;
+    height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--text-color); overflow: hidden;
+  }
+
+  /* 標題位置 */
+  .title-wrapper {
+    position: relative; margin-bottom: 60px; margin-top: -80px; 
+    z-index: 10;
+  }
+  
+  /* 港式霓虹招牌 */
+  h1 {
+    font-size: 3.5rem; margin: 0;
+    color: #ffeb3b; 
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px 50px; 
+    border: 4px solid #00e5ff; 
+    border-radius: 20px;
+    text-shadow: 2px 2px 0px #ff4081, 0 0 10px #ffeb3b, 0 0 20px #ff4081, 0 0 40px #00e5ff;    
+    box-shadow: 0 0 10px #00e5ff, inset 0 0 10px #00e5ff, 0 10px 20px rgba(0,0,0,0.3);
+    animation: neonFlickerHK 3s infinite alternate;
+  }
+
+  @keyframes neonFlickerHK {
+      0%, 80% { opacity: 1; text-shadow: 2px 2px 0px #ff4081, 0 0 10px #ffeb3b, 0 0 20px #ff4081, 0 0 40px #00e5ff; }
+      81% { opacity: 0.9; text-shadow: 2px 2px 0px #ff4081, 0 0 5px #ffeb3b, 0 0 10px #ff4081, 0 0 20px #00e5ff; }
+      82% { opacity: 1; text-shadow: 2px 2px 0px #ff4081, 0 0 10px #ffeb3b, 0 0 20px #ff4081, 0 0 40px #00e5ff; }
+      95% { opacity: 1; }
+      96% { opacity: 0.8; }
+      100% { opacity: 1; }
+  }
+
+  .layout-wrapper { display: flex; align-items: flex-start; gap: 50px; margin-top: 30px;}
+
+  .claw-machine { position: relative; width: 420px; display: flex; flex-direction: column; align-items: center; }
+
+  .rabbit-ears { position: absolute; top: -75px; width: 100%; height: 60px; z-index: 4; }
+  .ear {
+      position: absolute; width: 40px; height: 80px; background: #fff;
+      border: 6px solid var(--glass-frame); border-bottom: none; border-radius: 40px 40px 0 0;
+  }
+  .ear::after {
+      content:''; position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+      width: 20px; height: 50px; background: #ffc1cc; border-radius: 20px;
+  }
+  .ear.left { left: 100px; transform: rotate(-10deg); }
+  .ear.right { right: 100px; transform: rotate(10deg); }
+
+  .glass-cabinet {
+      width: 380px; height: 320px; background: rgba(255, 255, 255, 0.4);
+      border: 8px solid var(--glass-frame); border-radius: 20px;
+      position: relative; overflow: hidden; z-index: 5;
+      box-shadow: inset 0 0 30px rgba(255,255,255,0.6); backdrop-filter: blur(1px);
+  }
+  
+  .rabbit-face {
+      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      width: 150px; height: 40px; z-index: 2; pointer-events: none;
+      display: flex; justify-content: center; align-items: center;
+  }
+  .eye { width: 12px; height: 12px; background: #5d4037; border-radius: 50%; margin: 0 25px; animation: blink 3s infinite;}
+  .mouth {
+      position: absolute; bottom: 0; width: 20px; height: 10px;
+      border-bottom: 3px solid #5d4037; border-radius: 0 0 10px 10px;
+  }
+  @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+
+  .claw-carriage {
+      position: absolute; top: 0; left: 5px; 
+      width: 80px; height: 100%; pointer-events: none; z-index: 10;
+      transition: left 1s ease-in-out, top 1s ease-in-out;
+  }
+  .claw-rope {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 4px; height: 60px; background: #78909c; transition: height 1s ease-in-out;
+  }
+  .claw-body {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 50px;
+  }
+  .claw-hub { width: 40px; height: 25px; background: var(--claw-metal); margin: 0 auto; border-radius: 5px 5px 2px 2px; }
+  .claw-finger {
+      position: absolute; top: 20px; width: 20px; height: 40px;
+      background: var(--claw-metal); border-radius: 0 0 20px 20px;
+      transform-origin: top center; transition: transform 0.3s;
+  }
+  .claw-finger.left { left: 5px; transform: rotate(30deg); border-right: 2px solid #78909c; }
+  .claw-finger.right { right: 5px; transform: rotate(-30deg); border-left: 2px solid #78909c; }
+
+  /* 擬真扭蛋殼樣式 */
+  .gacha-ball {
+      position: absolute; width: 50px; height: 50px; border-radius: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 48%, rgba(0,0,0,0.1) 50%, var(--c) 50%, var(--c) 100%);
+      box-shadow: inset -3px -3px 8px rgba(0,0,0,0.1), inset 3px 3px 8px rgba(255,255,255,0.9), 0 2px 5px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.1);
+      transform-style: preserve-3d;
+      transition: transform 0.1s;
+  }
+  /* 機器裡的小球：裡面有紙條 */
+  .gacha-ball::after {
+      content: ''; position: absolute;
+      top: 12px; left: 50%; transform: translateX(-50%) rotate(15deg);
+      width: 24px; height: 14px;
+      background: #fdfdfd;
+      border-radius: 2px;
+      box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+
+  /* 抓到的球 */
+  .caught-ball {
+      position: absolute; top: 35px; left: 50%; transform: translateX(-50%);
+      width: 35px; height: 35px; border-radius: 50%; 
+      background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 48%, rgba(0,0,0,0.1) 50%, var(--bg-color) 50%, var(--bg-color) 100%);
+      box-shadow: inset -2px -2px 5px rgba(0,0,0,0.1), inset 2px 2px 5px rgba(255,255,255,0.9);
+      opacity: 0; transition: opacity 0.2s, top 0.5s;
+      z-index: -1;
+  }
+  /* 爪子上的球：裡面也有紙條 */
+  .caught-ball::after {
+      content: ''; position: absolute;
+      top: 8px; left: 50%; transform: translateX(-50%) rotate(-10deg);
+      width: 16px; height: 10px;
+      background: #fdfdfd; border-radius: 2px;
+  }
+
+  /* 動畫狀態 */
+  .claw-carriage.center-pos { left: 50%; transform: translateX(-50%); } 
+  .claw-carriage.dropping .claw-rope { height: 220px; }
+  .claw-carriage.grabbing .claw-finger.left { transform: rotate(10deg); }
+  .claw-carriage.grabbing .claw-finger.right { transform: rotate(-10deg); }
+  .claw-carriage.grabbing .caught-ball { opacity: 1; }
+  .claw-carriage.move-left { left: 5px; transform: none; } 
+  .claw-carriage.releasing .claw-finger.left { transform: rotate(35deg); }
+  .claw-carriage.releasing .claw-finger.right { transform: rotate(-35deg); }
+  .claw-carriage.releasing .caught-ball { top: 200px; opacity: 0; }
+
+  .ball-box { position: absolute; bottom: 0; width: 100%; height: 120px; }
+  
+  .shaking .gacha-ball { animation: popcornRotateJump 0.6s infinite ease-in-out; }
+  @keyframes popcornRotateJump {
+      0% { transform: translate(0,0) rotate(0deg) scale(1); }
+      40% { transform: translate(var(--jx), -60px) rotate(var(--jr)) scale(1.1); }
+      100% { transform: translate(0,0) rotate(360deg) scale(1); }
+  }
+
+  .machine-base {
+      width: 400px; height: 180px; background: var(--m-body);
+      border-radius: 5px 5px 40px 40px; margin-top: -10px; z-index: 4;
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 0 30px; box-sizing: border-box; border-top: 10px solid var(--m-accent);
+      box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05), 0 20px 40px rgba(0,0,0,0.1);
+  }
+
+  .prize-outlet { 
+      width: 80px; height: 80px; background: #37474f; opacity: 0.8; 
+      border-radius: 10px 10px 20px 20px; border: 4px solid rgba(255,255,255,0.2);
+      box-shadow: inset 0 10px 20px rgba(0,0,0,0.5); position: relative;
+  }
+  .prize-outlet::after { content:'PUSH'; position:absolute; bottom:5px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.5); font-size: 0.8rem;}
+
+  .knob {
+      width: 90px; height: 90px; background: var(--button-bg); border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 0 #fdd835, 0 10px 20px rgba(0,0,0,0.1); transition: 0.1s;
+      border: 4px solid #fff;
+  }
+  .knob::after { content: 'GO!'; font-size: 2rem; color: var(--button-text); font-weight: bold; }
+  .knob:active { transform: translateY(4px); box-shadow: 0 4px 0 #fdd835; }
+
+  .joystick-base { width: 70px; height: 70px; display: flex; justify-content: center; align-items: center; }
+  .joystick { 
+      width: 50px; height: 50px; background: rgba(255,255,255,0.3); border-radius: 50%; 
+      position: relative; box-shadow: inset 0 5px 10px rgba(0,0,0,0.1);
+  }
+  .stick {
+      position: absolute; bottom: 20px; left: 15px; width: 20px; height: 60px; background: #cfd8dc; border-radius: 10px;
+      transform-origin: bottom center; transition: transform 0.2s;
+  }
+  .stick::after {
+      content:''; position: absolute; top: -20px; left: -10px; width: 40px; height: 40px; 
+      background: #ff8a80; border-radius: 50%; box-shadow: -2px -2px 5px rgba(255,255,255,0.5);
+  }
+  .machine-active .stick { animation: wiggle 1s infinite; }
+  @keyframes wiggle { 0%,100% {transform: rotate(0deg);} 25% {transform: rotate(-15deg);} 75% {transform: rotate(15deg);} }
+
+  /* 掉出來的球 */
+  .prize-container {
+      position: absolute; bottom: 50px; left: 18%; 
+      width: 140px; height: 140px; 
+      display: none; z-index: 20; cursor: pointer; transform: translateX(-50%);
+  }
+  .prize-half {
+      position: absolute; width: 100%; height: 50%; 
+      box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
+  }
+  /* 上半部：半透明霧面 + 紙條 */
+  .p-top { 
+      top: 0; border-radius: 70px 70px 0 0; 
+      background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%);
+      border-bottom: 2px solid rgba(0,0,0,0.1);
+      /* 邊框繼承 */
+      border: 5px solid #fff; border-bottom: none;
+  }
+  /* 掉出來的大球：裡面有明顯的大紙條 */
+  .p-top::after {
+      content: ''; position: absolute;
+      top: 30px; left: 50%; transform: translateX(-50%) rotate(10deg);
+      width: 60px; height: 40px;
+      background: #fcfcfc; border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .p-bottom { 
+      bottom: 0; border-radius: 0 0 70px 70px; 
+      background: var(--p-c); 
+      box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2);
+      border: 5px solid #fff; border-top: none;
+  }
+  
+  .prize-container.open .p-top { transform: translateY(-80px) rotate(-15deg); opacity: 0; }
+  .prize-container.open .p-bottom { transform: translateY(80px) rotate(15deg); opacity: 0; }
+  .drop-anim { display: block; animation: bounceIn 0.8s forwards; }
+  @keyframes bounceIn { 0% { bottom: 200px; opacity:0; transform: translateX(-50%) scale(0.5); } 100% { bottom: 50px; opacity:1; transform: translateX(-50%) scale(1); } }
+
+  .mini-menu {
+      background: #fffdf0; 
+      padding: 25px; border-radius: 10px;
+      border: 6px solid #333; 
+      box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 8px #ffeb3b, 10px 10px 0 rgba(0,0,0,0.1); 
+      transform: rotate(2deg);
+      margin-top: -40px;
+      min-width: 250px;
+  }
+  .mini-menu h4 { 
+      margin: 0 0 15px 0; text-align: center; color: #333; font-size: 1.5rem; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 10px;
+  }
+  
+  .menu-list-simple { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 5px 15px; 
+      list-style: none; padding: 0; margin: 0; 
+      font-size: 1.1rem; color: var(--text-color); line-height: 1.5; font-weight: bold;
+      text-align: left;
+  }
+  .menu-list-simple li { white-space: nowrap; }
+
+  .footer { margin-top: 30px; font-weight: bold; display: flex; align-items: center; gap: 15px; font-size: 1.5rem; }
+  .chubby-flower { width: 50px; height: 50px; position: relative; animation: rotate 4s linear infinite; }
+  .petal { position: absolute; width: 22px; height: 22px; background: #ffb7c5; border-radius: 50%; }
+  .p1 { top: 0; left: 14px; } .p2 { top: 10px; left: 28px; } .p3 { top: 25px; left: 22px; } .p4 { top: 25px; left: 5px; } .p5 { top: 10px; left: 0px; }
+  .center { position: absolute; top: 12px; left: 14px; width: 22px; height: 22px; background: #ffe082; border-radius: 50%; z-index: 2; }
+  @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  .modal-card {
+      background: radial-gradient(circle, #fff 50%, #fff0f5 100%);
+      width: 360px; padding: 40px; 
+      border-radius: 40px; text-align: center;
+      border: 8px dashed #ffc1cc;
+      box-shadow: 0 0 0 10px #fff, 0 30px 60px rgba(0,0,0,0.15); 
+      transform: scale(0.8); transition: 0.4s;
+      position: relative;
+  }
+  .modal-card::before { content:'✨'; font-size: 3rem; position: absolute; top: -30px; right: -20px; transform: rotate(20deg); }
+  .modal-card::after { content:'✨'; font-size: 2rem; position: absolute; bottom: -10px; left: -20px; transform: rotate(-10deg); color: #ffd700;}
+
+  .modal.active .modal-card { transform: scale(1); }
+  .res-text { font-size: 3.5rem; font-weight: bold; margin: 30px 0; color: #ff6b81; text-shadow: 2px 2px 0 #fff;}
+  
+  .close-btn { 
+      background: linear-gradient(to bottom, #fff9c4, #fff176);
+      color: #ff5252; border: 3px solid #fff; 
+      padding: 12px 50px; border-radius: 40px; 
+      font-family: inherit; font-size: 1.8rem; cursor: pointer; font-weight: bold; 
+      box-shadow: 0 5px 0 #fdd835, 0 10px 15px rgba(0,0,0,0.1);
+  }
+  .close-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #fdd835; }
+
+</style>
+</head>
+<body>
+
+<div class="title-wrapper">
+    <h1>午餐夾飽未？</h1>
+</div>
+
+<div class="layout-wrapper">
+    <div class="claw-machine">
+        <div class="rabbit-ears">
+            <div class="ear left"></div><div class="ear right"></div>
+        </div>
+
+        <div class="glass-cabinet">
+            <div class="rabbit-face">
+                <div class="eye"></div><div class="mouth"></div><div class="eye"></div>
+            </div>
+
+            <div class="claw-carriage" id="carriage">
+                <div class="claw-rope">
+                    <div class="claw-body">
+                        <div class="claw-hub"></div>
+                        <div class="claw-finger left"></div><div class="claw-finger right"></div>
+                        <div class="caught-ball" id="caughtBall"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="ball-box" id="ballBox"></div>
+        </div>
+
+        <div class="machine-base">
+            <div class="prize-outlet"></div>
+            <div class="knob" id="knob" onclick="playClawMachine()"></div>
+            <div class="joystick-base">
+                <div class="joystick"><div class="stick"></div></div>
+            </div>
+        </div>
+        
+        <div class="prize-container" id="prize" onclick="openPrize()">
+            <div class="prize-half p-top"></div>
+            <div class="prize-half p-bottom"></div>
+        </div>
+    </div>
+
+    <div class="mini-menu">
+        <h4>美味清單</h4>
+        <ul class="menu-list-simple">
+            <li>碗裏</li><li>麥當勞</li><li>擄胃專家</li><li>老王</li><li>紅辣椒</li>
+            <li>吉峰蒸餃</li><li>向上水餃</li><li>炒飯英雄</li><li>三媽臭臭鍋</li><li>九州拉麵</li>
+            <li>陳記海南雞飯</li><li>吉野烤肉飯</li><li>初飽</li><li>咕咕雞火雞肉飯</li><li>紅利燒臘</li>
+            <li>食為大</li><li>鴨董當歸鴨</li>
+        </ul>
+    </div>
+</div>
+
+<div class="footer">
+    Design by 董花花 
+    <div class="chubby-flower">
+        <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="petal p5"></div>
+        <div class="center"></div>
+    </div>
+</div>
+
+<div class="modal" id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.7); backdrop-filter:blur(10px); align-items:center; justify-content:center; z-index:100;">
+    <div class="modal-card">
+        <h2 style="margin:0; color:#888; font-size:1.5rem;">🎉 恭喜夾中 🎉</h2>
+        <div class="res-text" id="resName"></div>
+        <button class="close-btn" onclick="reset()">來啦！呷啦～</button>
+    </div>
+</div>
+
+<script>
+    const ballBox = document.getElementById('ballBox');
+    const colors = ['var(--ball-1)', 'var(--ball-2)', 'var(--ball-3)', 'var(--ball-4)', 'var(--ball-5)', 'var(--ball-6)'];
+    const restaurants = ["碗裏", "麥當勞", "擄胃專家", "老王", "紅辣椒", "吉峰蒸餃", "向上水餃", "炒飯英雄", "三媽臭臭鍋", "九州拉麵", "陳記海南雞飯", "吉野烤肉飯", "初飽", "咕咕雞火雞肉飯", "紅利燒臘", "食為大", "鴨董當歸鴨", "再扭一次", "不吃減肥"];
+
+    function initBalls() {
+        ballBox.innerHTML = '';
+        for(let i=0; i<30; i++) {
+            const ball = document.createElement('div');
+            ball.className = 'gacha-ball'; 
+            ball.style.setProperty('--c', colors[Math.floor(Math.random()*colors.length)]);
+            ball.style.left = Math.random() * 320 + 10 + 'px';
+            ball.style.top = Math.random() * 60 + 20 + 'px';
+            ball.style.transform = `rotate(${Math.random()*360}deg)`;
+            
+            ball.style.setProperty('--jx', (Math.random()*60 - 30) + 'px');
+            ball.style.setProperty('--jr', (Math.random()*360 - 180) + 'deg'); 
+            ball.style.animationDelay = Math.random() * 0.5 + 's';
+            
+            ballBox.appendChild(ball);
+        }
+    }
+    initBalls();
+
+    let busy = false;
+    let winnerName = "";
+
+    function playClawMachine() {
+        if(busy) return;
+        busy = true;
+        const carriage = document.getElementById('carriage');
+        const caughtBall = document.getElementById('caughtBall');
+        const machineBase = document.querySelector('.machine-base');
+        
+        document.querySelector('.claw-machine').classList.add('shaking');
+        machineBase.classList.add('machine-active');
+
+        const winColor = colors[Math.floor(Math.random()*colors.length)];
+        caughtBall.style.setProperty('--bg-color', winColor); 
+
+        carriage.classList.add('center-pos');
+
+        setTimeout(() => {
+            carriage.classList.add('dropping');
+            setTimeout(() => {
+                carriage.classList.add('grabbing');
+                document.querySelector('.claw-machine').classList.remove('shaking');
+                setTimeout(() => {
+                    carriage.classList.remove('dropping');
+                    setTimeout(() => {
+                        carriage.classList.add('move-left');
+                        setTimeout(() => {
+                            carriage.classList.remove('grabbing');
+                            carriage.classList.add('releasing');
+                            setTimeout(() => {
+                                winnerName = restaurants[Math.floor(Math.random()*restaurants.length)];
+                                const prize = document.getElementById('prize');
+                                prize.style.setProperty('--p-c', winColor);
+                                prize.classList.remove('open');
+                                prize.style.display = 'block';
+                                prize.classList.add('drop-anim');
+                                machineBase.classList.remove('machine-active');
+                            }, 600);
+                        }, 1200);
+                    }, 1000);
+                }, 500);
+            }, 1000);
+        }, 1000);
+    }
+
+    function openPrize() {
+        document.getElementById('prize').classList.add('open');
+        setTimeout(() => {
+            document.getElementById('resName').innerText = winnerName;
+            const modal = document.getElementById('modal');
+            modal.style.display = 'flex';
+            setTimeout(()=>modal.classList.add('active'), 10);
+        }, 600);
+    }
+
+    function reset() {
+        const modal = document.getElementById('modal');
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.getElementById('prize').style.display = 'none';
+            const carriage = document.getElementById('carriage');
+            carriage.classList.remove('move-left', 'releasing', 'center-pos');
+            busy = false;
+        }, 400);
+    }
+</script>
+
+</body>
+</html>
