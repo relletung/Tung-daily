@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>午餐夾飽未？</title>
 <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -26,14 +26,18 @@
     background-image: linear-gradient(45deg, var(--bg-orange) 25%, transparent 25%, transparent 75%, var(--bg-orange) 75%, var(--bg-orange)),
                       linear-gradient(45deg, var(--bg-orange) 25%, var(--bg-white) 25%, var(--bg-white) 75%, var(--bg-orange) 75%, var(--bg-orange));
     background-size: 100px 100px; background-position: 0 0, 50px 50px;
-    height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: var(--text-color); overflow: hidden;
+    /* 🌟 修改：手機版改為可滑動，避免內容被卡住 🌟 */
+    min-height: 100vh; margin: 0; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--text-color); overflow-x: hidden; overflow-y: auto;
+    padding: 20px 0; /* 給手機版上下留點空間 */
   }
 
   /* 標題位置 */
   .title-wrapper {
-    position: relative; margin-bottom: 60px; margin-top: -80px; 
+    position: relative; margin-bottom: 60px; margin-top: -40px; 
     z-index: 10;
+    transition: transform 0.3s;
   }
   
   /* 港式霓虹招牌 */
@@ -47,6 +51,7 @@
     text-shadow: 2px 2px 0px #ff4081, 0 0 10px #ffeb3b, 0 0 20px #ff4081, 0 0 40px #00e5ff;    
     box-shadow: 0 0 10px #00e5ff, inset 0 0 10px #00e5ff, 0 10px 20px rgba(0,0,0,0.3);
     animation: neonFlickerHK 3s infinite alternate;
+    white-space: nowrap; /* 防止手機版標題換行 */
   }
 
   @keyframes neonFlickerHK {
@@ -58,7 +63,10 @@
       100% { opacity: 1; }
   }
 
-  .layout-wrapper { display: flex; align-items: flex-start; gap: 50px; margin-top: 30px;}
+  .layout-wrapper { 
+      display: flex; align-items: flex-start; gap: 50px; margin-top: 30px;
+      transition: transform 0.3s;
+  }
 
   .claw-machine { position: relative; width: 420px; display: flex; flex-direction: column; align-items: center; }
 
@@ -303,6 +311,42 @@
   }
   .close-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #fdd835; }
 
+  /* 🌟🌟🌟 手機版RWD樣式 (關鍵！) 🌟🌟🌟 */
+  @media (max-width: 850px) {
+      /* 調整標題 */
+      .title-wrapper {
+          transform: scale(0.7);
+          margin-top: 10px;
+          margin-bottom: 30px;
+      }
+      
+      /* 改變佈局為垂直排列 */
+      .layout-wrapper {
+          flex-direction: column;
+          align-items: center;
+          margin-top: 0;
+          gap: 40px;
+      }
+
+      /* 縮小夾娃娃機 */
+      .claw-machine {
+          transform: scale(0.8); /* 縮放 */
+          transform-origin: top center;
+          margin-bottom: -60px; /* 修正縮放後的留白 */
+      }
+
+      /* 調整菜單位置 */
+      .mini-menu {
+          margin-top: 0;
+          width: 90%;
+          max-width: 320px;
+      }
+
+      /* 讓胖胖花有空間 */
+      .footer {
+          margin-bottom: 30px;
+      }
+  }
 </style>
 </head>
 <body>
