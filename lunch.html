@@ -310,20 +310,19 @@
   }
   .close-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #fdd835; }
 
-  /* 🌟🌟🌟 手機版RWD修正：標題往下挪 🌟🌟🌟 */
+  /* 🌟🌟🌟 手機版RWD修正：標題與機器間距加大 🌟🌟🌟 */
   @media (max-width: 850px) {
-      /* 調整標題：改回正值，往下推，確保不切頭 */
       .title-wrapper {
           transform: scale(0.7);
-          margin-top: 20px;      /* 關鍵修改：往下挪 */
-          margin-bottom: 20px;   
+          margin-top: 20px;
+          margin-bottom: 20px;
       }
       
       /* 改變佈局為垂直排列 */
       .layout-wrapper {
           flex-direction: column;
           align-items: center;
-          margin-top: 10px;      /* 機器也稍微往下，跟標題保持距離 */
+          margin-top: 40px;      /* 關鍵修改：加大間距，讓機器往下挪 */
           gap: 40px;
       }
 
