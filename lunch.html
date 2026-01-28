@@ -32,7 +32,7 @@
     padding: 20px 0;
   }
 
-  /* 標題位置 (電腦版維持原樣) */
+  /* 標題位置 */
   .title-wrapper {
     position: relative; margin-bottom: 60px; margin-top: -80px; 
     z-index: 10;
@@ -322,7 +322,7 @@
       .layout-wrapper {
           flex-direction: column;
           align-items: center;
-          margin-top: 40px;      /* 關鍵修改：加大間距，讓機器往下挪 */
+          margin-top: 40px;      /* 機器間距 */
           gap: 40px;
       }
 
@@ -395,8 +395,10 @@
         <ul class="menu-list-simple">
             <li>碗裏</li><li>麥當勞</li><li>擄胃專家</li><li>老王</li><li>紅辣椒</li>
             <li>吉峰蒸餃</li><li>向上水餃</li><li>炒飯英雄</li><li>三媽臭臭鍋</li><li>九州拉麵</li>
-            <li>陳記海南雞飯</li><li>吉野烤肉飯</li><li>初飽</li><li>咕咕雞火雞肉飯</li><li>紅利燒臘</li>
-            <li>食為大</li><li>鴨董當歸鴨</li>
+            <li>陳記海南雞飯</li><li>吉野烤肉飯</li><li>初飽</li><li>咕咕雞火雞肉飯</li><li>鴻利燒臘</li>
+            <li>食為大</li><li>鴨董當歸鴨</li><li>A米炊飯</li><li>大埔鐵板燒</li><li>傻瓜麵</li>
+            <li>周大福鐵路便當</li><li>大昌排骨飯</li><li>尊品牛肉麵</li><li>𡘙師傅</li><li>MAK&MAY咖哩</li>
+            <li>小紅帽烤肉飯</li><li>大豐擴肉飯</li><li>黑肉麵</li><li>黑豬排骨</li><li>極品燒臘</li>
         </ul>
     </div>
 </div>
@@ -420,7 +422,17 @@
 <script>
     const ballBox = document.getElementById('ballBox');
     const colors = ['var(--ball-1)', 'var(--ball-2)', 'var(--ball-3)', 'var(--ball-4)', 'var(--ball-5)', 'var(--ball-6)'];
-    const restaurants = ["碗裏", "麥當勞", "擄胃專家", "老王", "紅辣椒", "吉峰蒸餃", "向上水餃", "炒飯英雄", "三媽臭臭鍋", "九州拉麵", "陳記海南雞飯", "吉野烤肉飯", "初飽", "咕咕雞火雞肉飯", "紅利燒臘", "食為大", "鴨董當歸鴨", "再扭一次", "不吃減肥"];
+    
+    // 🌟 餐廳名單已更新 🌟
+    const restaurants = [
+        "碗裏", "麥當勞", "擄胃專家", "老王", "紅辣椒", 
+        "吉峰蒸餃", "向上水餃", "炒飯英雄", "三媽臭臭鍋", "九州拉麵", 
+        "陳記海南雞飯", "吉野烤肉飯", "初飽", "咕咕雞火雞肉飯", "鴻利燒臘", 
+        "食為大", "鴨董當歸鴨", "A米炊飯", "大埔鐵板燒", "傻瓜麵", 
+        "周大福鐵路便當", "大昌排骨飯", "尊品牛肉麵", "𡘙師傅", "MAK&MAY咖哩", 
+        "小紅帽烤肉飯", "大豐擴肉飯", "黑肉麵", "黑豬排骨", "極品燒臘",
+        "再扭一次", "不吃減肥"
+    ];
 
     function initBalls() {
         ballBox.innerHTML = '';
