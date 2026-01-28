@@ -31,7 +31,7 @@
     padding: 20px 0;
   }
 
-  /* 佈局容器：電腦版左右排列 */
+  /* 佈局容器 */
   .layout-wrapper { 
       display: flex; 
       align-items: center; 
@@ -78,7 +78,15 @@
       100% { opacity: 1; }
   }
 
-  .claw-machine { position: relative; width: 420px; display: flex; flex-direction: column; align-items: center; }
+  /* 電腦版修正：機器往下一點 */
+  .claw-machine { 
+      position: relative; 
+      width: 420px; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      margin-top: 50px; 
+  }
 
   .rabbit-ears { position: absolute; top: -75px; width: 100%; height: 60px; z-index: 4; }
   .ear {
@@ -261,7 +269,6 @@
   .drop-anim { display: block; animation: bounceIn 0.8s forwards; }
   @keyframes bounceIn { 0% { bottom: 200px; opacity:0; transform: translateX(-50%) scale(0.5); } 100% { bottom: 50px; opacity:1; transform: translateX(-50%) scale(1); } }
 
-  /* 🌟🌟🌟 電腦版設定：寬度加寬、3列排列 🌟🌟🌟 */
   .mini-menu {
       background: #fffdf0; 
       padding: 25px; border-radius: 10px;
@@ -269,7 +276,7 @@
       box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 8px #ffeb3b, 10px 10px 0 rgba(0,0,0,0.1); 
       transform: rotate(2deg);
       margin-top: 0;
-      min-width: 420px; /* 變寬 */
+      min-width: 420px; 
   }
   .mini-menu h4 { 
       margin: 0 0 15px 0; text-align: center; color: #333; font-size: 1.5rem; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 10px;
@@ -277,7 +284,7 @@
   
   .menu-list-simple { 
       display: grid; 
-      grid-template-columns: 1fr 1fr 1fr; /* 🌟 這裡改成 3 列 🌟 */
+      grid-template-columns: 1fr 1fr 1fr; /* 3 列 */
       gap: 5px 15px; 
       list-style: none; padding: 0; margin: 0; 
       font-size: 1.1rem; color: var(--text-color); line-height: 1.5; font-weight: bold;
@@ -316,33 +323,42 @@
   }
   .close-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #fdd835; }
 
-  /* 🌟🌟🌟 手機版RWD (使用 display:contents 和 order 來重組順序) 🌟🌟🌟 */
+  /* 🌟🌟🌟 手機版RWD 🌟🌟🌟 */
   @media (max-width: 850px) {
       .layout-wrapper {
           flex-direction: column;
           align-items: center;
           gap: 40px;
-          margin-top: 10px;
+          margin-top: 0; /* 手機版物件全部往上 */
       }
 
-      /* 讓右側面板的內容物可以被拆開來排順序 */
       .right-panel {
           display: contents; 
       }
 
-      /* 設定手機版顯示順序：1.招牌 2.機器 3.菜單 */
-      .title-wrapper { order: -1; margin-top: 20px; margin-bottom: 20px; transform: scale(0.7); }
-      .claw-machine { order: 0; transform: scale(0.8); transform-origin: top center; margin-bottom: -60px; }
+      .title-wrapper { 
+          order: -1; 
+          margin-top: -10px; /* 標題再往上 */
+          margin-bottom: 10px; 
+          transform: scale(0.7); 
+      }
       
-      /* 🌟 手機版強制回歸 2 列，避免太擠 🌟 */
+      .claw-machine { 
+          order: 0; 
+          margin-top: 0; /* 手機版不需要額外往下 */
+          transform: scale(0.8); 
+          transform-origin: top center; 
+          margin-bottom: -60px; 
+      }
+      
       .mini-menu { 
           order: 1; 
           width: 90%; 
           max-width: 320px; 
-          min-width: auto; /* 重設寬度 */
+          min-width: auto; 
       }
       .menu-list-simple {
-          grid-template-columns: 1fr 1fr; /* 手機版維持 2 列 */
+          grid-template-columns: 1fr 1fr;
       }
 
       .footer {
@@ -429,7 +445,7 @@
     const ballBox = document.getElementById('ballBox');
     const colors = ['var(--ball-1)', 'var(--ball-2)', 'var(--ball-3)', 'var(--ball-4)', 'var(--ball-5)', 'var(--ball-6)'];
     
-    // 🌟 30 家餐廳陣列 (含再扭一次 & 不吃減肥) 🌟
+    // 🌟 30 家餐廳陣列 (已將"再扭一次"改為"再夾一次") 🌟
     const restaurants = [
         "碗裏", "麥當勞", "擄胃專家", "老王", "紅辣椒", 
         "吉峰蒸餃", "向上水餃", "炒飯英雄", "三媽臭臭鍋", "九州拉麵", 
@@ -437,7 +453,7 @@
         "食為大", "鴨董當歸鴨", "A米炊飯", "大埔鐵板燒", "傻瓜麵", 
         "周大福鐵路便當", "大昌排骨飯", "尊品牛肉麵", "𡘙師傅", "MAK&MAY咖哩", 
         "小紅帽烤肉飯", "大豐擴肉飯", "黑肉麵", "黑豬排骨", "極品燒臘",
-        "再扭一次", "不吃減肥"
+        "再夾一次", "不吃減肥"
     ];
 
     function initBalls() {
